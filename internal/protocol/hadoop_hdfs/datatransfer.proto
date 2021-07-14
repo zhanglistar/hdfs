@@ -29,6 +29,7 @@ option java_package = "org.apache.hadoop.hdfs.protocol.proto";
 option java_outer_classname = "DataTransferProtos";
 option java_generate_equals_and_hash = true;
 package hadoop.hdfs;
+option go_package = "github.com/zhanglistar/hdfs/internal/protocol/hadoop_hdfs";
 
 import "Security.proto";
 import "hdfs.proto";
