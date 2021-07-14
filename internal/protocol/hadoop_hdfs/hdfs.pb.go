@@ -202,6 +202,67 @@ func (CryptoProtocolVersionProto) EnumDescriptor() ([]byte, []int) {
 }
 
 //*
+// EC policy state.
+type ErasureCodingPolicyState int32
+
+const (
+	ErasureCodingPolicyState_DISABLED ErasureCodingPolicyState = 1
+	ErasureCodingPolicyState_ENABLED  ErasureCodingPolicyState = 2
+	ErasureCodingPolicyState_REMOVED  ErasureCodingPolicyState = 3
+)
+
+// Enum value maps for ErasureCodingPolicyState.
+var (
+	ErasureCodingPolicyState_name = map[int32]string{
+		1: "DISABLED",
+		2: "ENABLED",
+		3: "REMOVED",
+	}
+	ErasureCodingPolicyState_value = map[string]int32{
+		"DISABLED": 1,
+		"ENABLED":  2,
+		"REMOVED":  3,
+	}
+)
+
+func (x ErasureCodingPolicyState) Enum() *ErasureCodingPolicyState {
+	p := new(ErasureCodingPolicyState)
+	*p = x
+	return p
+}
+
+func (x ErasureCodingPolicyState) String() string {
+	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+}
+
+func (ErasureCodingPolicyState) Descriptor() protoreflect.EnumDescriptor {
+	return file_hdfs_proto_enumTypes[3].Descriptor()
+}
+
+func (ErasureCodingPolicyState) Type() protoreflect.EnumType {
+	return &file_hdfs_proto_enumTypes[3]
+}
+
+func (x ErasureCodingPolicyState) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+// Deprecated: Do not use.
+func (x *ErasureCodingPolicyState) UnmarshalJSON(b []byte) error {
+	num, err := protoimpl.X.UnmarshalJSONEnum(x.Descriptor(), b)
+	if err != nil {
+		return err
+	}
+	*x = ErasureCodingPolicyState(num)
+	return nil
+}
+
+// Deprecated: Use ErasureCodingPolicyState.Descriptor instead.
+func (ErasureCodingPolicyState) EnumDescriptor() ([]byte, []int) {
+	return file_hdfs_proto_rawDescGZIP(), []int{3}
+}
+
+//*
 // Checksum algorithms/types used in HDFS
 // Make sure this enum's integer values match enum values' id properties defined
 // in org.apache.hadoop.util.DataChecksum.Type
@@ -238,11 +299,11 @@ func (x ChecksumTypeProto) String() string {
 }
 
 func (ChecksumTypeProto) Descriptor() protoreflect.EnumDescriptor {
-	return file_hdfs_proto_enumTypes[3].Descriptor()
+	return file_hdfs_proto_enumTypes[4].Descriptor()
 }
 
 func (ChecksumTypeProto) Type() protoreflect.EnumType {
-	return &file_hdfs_proto_enumTypes[3]
+	return &file_hdfs_proto_enumTypes[4]
 }
 
 func (x ChecksumTypeProto) Number() protoreflect.EnumNumber {
@@ -261,7 +322,7 @@ func (x *ChecksumTypeProto) UnmarshalJSON(b []byte) error {
 
 // Deprecated: Use ChecksumTypeProto.Descriptor instead.
 func (ChecksumTypeProto) EnumDescriptor() ([]byte, []int) {
-	return file_hdfs_proto_rawDescGZIP(), []int{3}
+	return file_hdfs_proto_rawDescGZIP(), []int{4}
 }
 
 type DatanodeInfoProto_AdminState int32
@@ -297,11 +358,11 @@ func (x DatanodeInfoProto_AdminState) String() string {
 }
 
 func (DatanodeInfoProto_AdminState) Descriptor() protoreflect.EnumDescriptor {
-	return file_hdfs_proto_enumTypes[4].Descriptor()
+	return file_hdfs_proto_enumTypes[5].Descriptor()
 }
 
 func (DatanodeInfoProto_AdminState) Type() protoreflect.EnumType {
-	return &file_hdfs_proto_enumTypes[4]
+	return &file_hdfs_proto_enumTypes[5]
 }
 
 func (x DatanodeInfoProto_AdminState) Number() protoreflect.EnumNumber {
@@ -353,11 +414,11 @@ func (x DatanodeStorageProto_StorageState) String() string {
 }
 
 func (DatanodeStorageProto_StorageState) Descriptor() protoreflect.EnumDescriptor {
-	return file_hdfs_proto_enumTypes[5].Descriptor()
+	return file_hdfs_proto_enumTypes[6].Descriptor()
 }
 
 func (DatanodeStorageProto_StorageState) Type() protoreflect.EnumType {
-	return &file_hdfs_proto_enumTypes[5]
+	return &file_hdfs_proto_enumTypes[6]
 }
 
 func (x DatanodeStorageProto_StorageState) Number() protoreflect.EnumNumber {
@@ -412,11 +473,11 @@ func (x HdfsFileStatusProto_FileType) String() string {
 }
 
 func (HdfsFileStatusProto_FileType) Descriptor() protoreflect.EnumDescriptor {
-	return file_hdfs_proto_enumTypes[6].Descriptor()
+	return file_hdfs_proto_enumTypes[7].Descriptor()
 }
 
 func (HdfsFileStatusProto_FileType) Type() protoreflect.EnumType {
-	return &file_hdfs_proto_enumTypes[6]
+	return &file_hdfs_proto_enumTypes[7]
 }
 
 func (x HdfsFileStatusProto_FileType) Number() protoreflect.EnumNumber {
@@ -2346,11 +2407,17 @@ type ErasureCodingPolicyProto struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Name     *string        `protobuf:"bytes,1,req,name=name" json:"name,omitempty"`
-	Schema   *ECSchemaProto `protobuf:"bytes,2,req,name=schema" json:"schema,omitempty"`
-	CellSize *uint32        `protobuf:"varint,3,req,name=cellSize" json:"cellSize,omitempty"`
-	Id       *uint32        `protobuf:"varint,4,req,name=id" json:"id,omitempty"` // Actually a byte - only 8 bits used
+	Name     *string                   `protobuf:"bytes,1,opt,name=name" json:"name,omitempty"`
+	Schema   *ECSchemaProto            `protobuf:"bytes,2,opt,name=schema" json:"schema,omitempty"`
+	CellSize *uint32                   `protobuf:"varint,3,opt,name=cellSize" json:"cellSize,omitempty"`
+	Id       *uint32                   `protobuf:"varint,4,req,name=id" json:"id,omitempty"` // Actually a byte - only 8 bits used
+	State    *ErasureCodingPolicyState `protobuf:"varint,5,opt,name=state,enum=hadoop.hdfs.ErasureCodingPolicyState,def=2" json:"state,omitempty"`
 }
+
+// Default values for ErasureCodingPolicyProto fields.
+const (
+	Default_ErasureCodingPolicyProto_State = ErasureCodingPolicyState_ENABLED
+)
 
 func (x *ErasureCodingPolicyProto) Reset() {
 	*x = ErasureCodingPolicyProto{}
@@ -2410,6 +2477,13 @@ func (x *ErasureCodingPolicyProto) GetId() uint32 {
 		return *x.Id
 	}
 	return 0
+}
+
+func (x *ErasureCodingPolicyProto) GetState() ErasureCodingPolicyState {
+	if x != nil && x.State != nil {
+		return *x.State
+	}
+	return Default_ErasureCodingPolicyProto_State
 }
 
 //*
@@ -3564,14 +3638,18 @@ var file_hdfs_proto_rawDesc = []byte{
 	0x0d, 0x12, 0x36, 0x0a, 0x07, 0x6f, 0x70, 0x74, 0x69, 0x6f, 0x6e, 0x73, 0x18, 0x04, 0x20, 0x03,
 	0x28, 0x0b, 0x32, 0x25, 0x2e, 0x68, 0x61, 0x64, 0x6f, 0x6f, 0x70, 0x2e, 0x68, 0x64, 0x66, 0x73,
 	0x2e, 0x45, 0x43, 0x53, 0x63, 0x68, 0x65, 0x6d, 0x61, 0x4f, 0x70, 0x74, 0x69, 0x6f, 0x6e, 0x45,
-	0x6e, 0x74, 0x72, 0x79, 0x50, 0x72, 0x6f, 0x74, 0x6f, 0x22, 0x72, 0x0a, 0x18, 0x45, 0x72, 0x61,
-	0x73, 0x75, 0x72, 0x65, 0x43, 0x6f, 0x64, 0x69, 0x6e, 0x67, 0x50, 0x6f, 0x6c, 0x69, 0x63, 0x79,
-	0x50, 0x72, 0x6f, 0x74, 0x6f, 0x12, 0x0c, 0x0a, 0x04, 0x6e, 0x61, 0x6d, 0x65, 0x18, 0x01, 0x20,
-	0x02, 0x28, 0x09, 0x12, 0x2a, 0x0a, 0x06, 0x73, 0x63, 0x68, 0x65, 0x6d, 0x61, 0x18, 0x02, 0x20,
-	0x02, 0x28, 0x0b, 0x32, 0x1a, 0x2e, 0x68, 0x61, 0x64, 0x6f, 0x6f, 0x70, 0x2e, 0x68, 0x64, 0x66,
-	0x73, 0x2e, 0x45, 0x43, 0x53, 0x63, 0x68, 0x65, 0x6d, 0x61, 0x50, 0x72, 0x6f, 0x74, 0x6f, 0x12,
-	0x10, 0x0a, 0x08, 0x63, 0x65, 0x6c, 0x6c, 0x53, 0x69, 0x7a, 0x65, 0x18, 0x03, 0x20, 0x02, 0x28,
-	0x0d, 0x12, 0x0a, 0x0a, 0x02, 0x69, 0x64, 0x18, 0x04, 0x20, 0x02, 0x28, 0x0d, 0x22, 0xe1, 0x04,
+	0x6e, 0x74, 0x72, 0x79, 0x50, 0x72, 0x6f, 0x74, 0x6f, 0x22, 0xb1, 0x01, 0x0a, 0x18, 0x45, 0x72,
+	0x61, 0x73, 0x75, 0x72, 0x65, 0x43, 0x6f, 0x64, 0x69, 0x6e, 0x67, 0x50, 0x6f, 0x6c, 0x69, 0x63,
+	0x79, 0x50, 0x72, 0x6f, 0x74, 0x6f, 0x12, 0x0c, 0x0a, 0x04, 0x6e, 0x61, 0x6d, 0x65, 0x18, 0x01,
+	0x20, 0x01, 0x28, 0x09, 0x12, 0x2a, 0x0a, 0x06, 0x73, 0x63, 0x68, 0x65, 0x6d, 0x61, 0x18, 0x02,
+	0x20, 0x01, 0x28, 0x0b, 0x32, 0x1a, 0x2e, 0x68, 0x61, 0x64, 0x6f, 0x6f, 0x70, 0x2e, 0x68, 0x64,
+	0x66, 0x73, 0x2e, 0x45, 0x43, 0x53, 0x63, 0x68, 0x65, 0x6d, 0x61, 0x50, 0x72, 0x6f, 0x74, 0x6f,
+	0x12, 0x10, 0x0a, 0x08, 0x63, 0x65, 0x6c, 0x6c, 0x53, 0x69, 0x7a, 0x65, 0x18, 0x03, 0x20, 0x01,
+	0x28, 0x0d, 0x12, 0x0a, 0x0a, 0x02, 0x69, 0x64, 0x18, 0x04, 0x20, 0x02, 0x28, 0x0d, 0x12, 0x3d,
+	0x0a, 0x05, 0x73, 0x74, 0x61, 0x74, 0x65, 0x18, 0x05, 0x20, 0x01, 0x28, 0x0e, 0x32, 0x25, 0x2e,
+	0x68, 0x61, 0x64, 0x6f, 0x6f, 0x70, 0x2e, 0x68, 0x64, 0x66, 0x73, 0x2e, 0x45, 0x72, 0x61, 0x73,
+	0x75, 0x72, 0x65, 0x43, 0x6f, 0x64, 0x69, 0x6e, 0x67, 0x50, 0x6f, 0x6c, 0x69, 0x63, 0x79, 0x53,
+	0x74, 0x61, 0x74, 0x65, 0x3a, 0x07, 0x45, 0x4e, 0x41, 0x42, 0x4c, 0x45, 0x44, 0x22, 0xe1, 0x04,
 	0x0a, 0x13, 0x48, 0x64, 0x66, 0x73, 0x46, 0x69, 0x6c, 0x65, 0x53, 0x74, 0x61, 0x74, 0x75, 0x73,
 	0x50, 0x72, 0x6f, 0x74, 0x6f, 0x12, 0x3b, 0x0a, 0x08, 0x66, 0x69, 0x6c, 0x65, 0x54, 0x79, 0x70,
 	0x65, 0x18, 0x01, 0x20, 0x02, 0x28, 0x0e, 0x32, 0x29, 0x2e, 0x68, 0x61, 0x64, 0x6f, 0x6f, 0x70,
@@ -3703,19 +3781,23 @@ var file_hdfs_proto_rawDesc = []byte{
 	0x4e, 0x4b, 0x4e, 0x4f, 0x57, 0x4e, 0x5f, 0x50, 0x52, 0x4f, 0x54, 0x4f, 0x43, 0x4f, 0x4c, 0x5f,
 	0x56, 0x45, 0x52, 0x53, 0x49, 0x4f, 0x4e, 0x10, 0x01, 0x12, 0x14, 0x0a, 0x10, 0x45, 0x4e, 0x43,
 	0x52, 0x59, 0x50, 0x54, 0x49, 0x4f, 0x4e, 0x5f, 0x5a, 0x4f, 0x4e, 0x45, 0x53, 0x10, 0x02, 0x2a,
-	0x4f, 0x0a, 0x11, 0x43, 0x68, 0x65, 0x63, 0x6b, 0x73, 0x75, 0x6d, 0x54, 0x79, 0x70, 0x65, 0x50,
-	0x72, 0x6f, 0x74, 0x6f, 0x12, 0x11, 0x0a, 0x0d, 0x43, 0x48, 0x45, 0x43, 0x4b, 0x53, 0x55, 0x4d,
-	0x5f, 0x4e, 0x55, 0x4c, 0x4c, 0x10, 0x00, 0x12, 0x12, 0x0a, 0x0e, 0x43, 0x48, 0x45, 0x43, 0x4b,
-	0x53, 0x55, 0x4d, 0x5f, 0x43, 0x52, 0x43, 0x33, 0x32, 0x10, 0x01, 0x12, 0x13, 0x0a, 0x0f, 0x43,
-	0x48, 0x45, 0x43, 0x4b, 0x53, 0x55, 0x4d, 0x5f, 0x43, 0x52, 0x43, 0x33, 0x32, 0x43, 0x10, 0x02,
-	0x42, 0x71, 0x0a, 0x25, 0x6f, 0x72, 0x67, 0x2e, 0x61, 0x70, 0x61, 0x63, 0x68, 0x65, 0x2e, 0x68,
-	0x61, 0x64, 0x6f, 0x6f, 0x70, 0x2e, 0x68, 0x64, 0x66, 0x73, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f,
-	0x63, 0x6f, 0x6c, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x42, 0x0a, 0x48, 0x64, 0x66, 0x73, 0x50,
-	0x72, 0x6f, 0x74, 0x6f, 0x73, 0x5a, 0x39, 0x67, 0x69, 0x74, 0x68, 0x75, 0x62, 0x2e, 0x63, 0x6f,
-	0x6d, 0x2f, 0x7a, 0x68, 0x61, 0x6e, 0x67, 0x6c, 0x69, 0x73, 0x74, 0x61, 0x72, 0x2f, 0x68, 0x64,
-	0x66, 0x73, 0x2f, 0x69, 0x6e, 0x74, 0x65, 0x72, 0x6e, 0x61, 0x6c, 0x2f, 0x70, 0x72, 0x6f, 0x74,
-	0x6f, 0x63, 0x6f, 0x6c, 0x2f, 0x68, 0x61, 0x64, 0x6f, 0x6f, 0x70, 0x5f, 0x68, 0x64, 0x66, 0x73,
-	0xa0, 0x01, 0x01,
+	0x42, 0x0a, 0x18, 0x45, 0x72, 0x61, 0x73, 0x75, 0x72, 0x65, 0x43, 0x6f, 0x64, 0x69, 0x6e, 0x67,
+	0x50, 0x6f, 0x6c, 0x69, 0x63, 0x79, 0x53, 0x74, 0x61, 0x74, 0x65, 0x12, 0x0c, 0x0a, 0x08, 0x44,
+	0x49, 0x53, 0x41, 0x42, 0x4c, 0x45, 0x44, 0x10, 0x01, 0x12, 0x0b, 0x0a, 0x07, 0x45, 0x4e, 0x41,
+	0x42, 0x4c, 0x45, 0x44, 0x10, 0x02, 0x12, 0x0b, 0x0a, 0x07, 0x52, 0x45, 0x4d, 0x4f, 0x56, 0x45,
+	0x44, 0x10, 0x03, 0x2a, 0x4f, 0x0a, 0x11, 0x43, 0x68, 0x65, 0x63, 0x6b, 0x73, 0x75, 0x6d, 0x54,
+	0x79, 0x70, 0x65, 0x50, 0x72, 0x6f, 0x74, 0x6f, 0x12, 0x11, 0x0a, 0x0d, 0x43, 0x48, 0x45, 0x43,
+	0x4b, 0x53, 0x55, 0x4d, 0x5f, 0x4e, 0x55, 0x4c, 0x4c, 0x10, 0x00, 0x12, 0x12, 0x0a, 0x0e, 0x43,
+	0x48, 0x45, 0x43, 0x4b, 0x53, 0x55, 0x4d, 0x5f, 0x43, 0x52, 0x43, 0x33, 0x32, 0x10, 0x01, 0x12,
+	0x13, 0x0a, 0x0f, 0x43, 0x48, 0x45, 0x43, 0x4b, 0x53, 0x55, 0x4d, 0x5f, 0x43, 0x52, 0x43, 0x33,
+	0x32, 0x43, 0x10, 0x02, 0x42, 0x71, 0x0a, 0x25, 0x6f, 0x72, 0x67, 0x2e, 0x61, 0x70, 0x61, 0x63,
+	0x68, 0x65, 0x2e, 0x68, 0x61, 0x64, 0x6f, 0x6f, 0x70, 0x2e, 0x68, 0x64, 0x66, 0x73, 0x2e, 0x70,
+	0x72, 0x6f, 0x74, 0x6f, 0x63, 0x6f, 0x6c, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x42, 0x0a, 0x48,
+	0x64, 0x66, 0x73, 0x50, 0x72, 0x6f, 0x74, 0x6f, 0x73, 0x5a, 0x39, 0x67, 0x69, 0x74, 0x68, 0x75,
+	0x62, 0x2e, 0x63, 0x6f, 0x6d, 0x2f, 0x7a, 0x68, 0x61, 0x6e, 0x67, 0x6c, 0x69, 0x73, 0x74, 0x61,
+	0x72, 0x2f, 0x68, 0x64, 0x66, 0x73, 0x2f, 0x69, 0x6e, 0x74, 0x65, 0x72, 0x6e, 0x61, 0x6c, 0x2f,
+	0x70, 0x72, 0x6f, 0x74, 0x6f, 0x63, 0x6f, 0x6c, 0x2f, 0x68, 0x61, 0x64, 0x6f, 0x6f, 0x70, 0x5f,
+	0x68, 0x64, 0x66, 0x73, 0xa0, 0x01, 0x01,
 }
 
 var (
@@ -3730,101 +3812,103 @@ func file_hdfs_proto_rawDescGZIP() []byte {
 	return file_hdfs_proto_rawDescData
 }
 
-var file_hdfs_proto_enumTypes = make([]protoimpl.EnumInfo, 7)
+var file_hdfs_proto_enumTypes = make([]protoimpl.EnumInfo, 8)
 var file_hdfs_proto_msgTypes = make([]protoimpl.MessageInfo, 36)
 var file_hdfs_proto_goTypes = []interface{}{
 	(StorageTypeProto)(0),                      // 0: hadoop.hdfs.StorageTypeProto
 	(CipherSuiteProto)(0),                      // 1: hadoop.hdfs.CipherSuiteProto
 	(CryptoProtocolVersionProto)(0),            // 2: hadoop.hdfs.CryptoProtocolVersionProto
-	(ChecksumTypeProto)(0),                     // 3: hadoop.hdfs.ChecksumTypeProto
-	(DatanodeInfoProto_AdminState)(0),          // 4: hadoop.hdfs.DatanodeInfoProto.AdminState
-	(DatanodeStorageProto_StorageState)(0),     // 5: hadoop.hdfs.DatanodeStorageProto.StorageState
-	(HdfsFileStatusProto_FileType)(0),          // 6: hadoop.hdfs.HdfsFileStatusProto.FileType
-	(*ExtendedBlockProto)(nil),                 // 7: hadoop.hdfs.ExtendedBlockProto
-	(*DatanodeIDProto)(nil),                    // 8: hadoop.hdfs.DatanodeIDProto
-	(*DatanodeLocalInfoProto)(nil),             // 9: hadoop.hdfs.DatanodeLocalInfoProto
-	(*DatanodeInfosProto)(nil),                 // 10: hadoop.hdfs.DatanodeInfosProto
-	(*DatanodeInfoProto)(nil),                  // 11: hadoop.hdfs.DatanodeInfoProto
-	(*DatanodeStorageProto)(nil),               // 12: hadoop.hdfs.DatanodeStorageProto
-	(*StorageReportProto)(nil),                 // 13: hadoop.hdfs.StorageReportProto
-	(*ContentSummaryProto)(nil),                // 14: hadoop.hdfs.ContentSummaryProto
-	(*QuotaUsageProto)(nil),                    // 15: hadoop.hdfs.QuotaUsageProto
-	(*StorageTypeQuotaInfosProto)(nil),         // 16: hadoop.hdfs.StorageTypeQuotaInfosProto
-	(*StorageTypeQuotaInfoProto)(nil),          // 17: hadoop.hdfs.StorageTypeQuotaInfoProto
-	(*CorruptFileBlocksProto)(nil),             // 18: hadoop.hdfs.CorruptFileBlocksProto
-	(*FsPermissionProto)(nil),                  // 19: hadoop.hdfs.FsPermissionProto
-	(*StorageTypesProto)(nil),                  // 20: hadoop.hdfs.StorageTypesProto
-	(*BlockStoragePolicyProto)(nil),            // 21: hadoop.hdfs.BlockStoragePolicyProto
-	(*LocatedBlockProto)(nil),                  // 22: hadoop.hdfs.LocatedBlockProto
-	(*DataEncryptionKeyProto)(nil),             // 23: hadoop.hdfs.DataEncryptionKeyProto
-	(*FileEncryptionInfoProto)(nil),            // 24: hadoop.hdfs.FileEncryptionInfoProto
-	(*PerFileEncryptionInfoProto)(nil),         // 25: hadoop.hdfs.PerFileEncryptionInfoProto
-	(*ZoneEncryptionInfoProto)(nil),            // 26: hadoop.hdfs.ZoneEncryptionInfoProto
-	(*CipherOptionProto)(nil),                  // 27: hadoop.hdfs.CipherOptionProto
-	(*LocatedBlocksProto)(nil),                 // 28: hadoop.hdfs.LocatedBlocksProto
-	(*ECSchemaOptionEntryProto)(nil),           // 29: hadoop.hdfs.ECSchemaOptionEntryProto
-	(*ECSchemaProto)(nil),                      // 30: hadoop.hdfs.ECSchemaProto
-	(*ErasureCodingPolicyProto)(nil),           // 31: hadoop.hdfs.ErasureCodingPolicyProto
-	(*HdfsFileStatusProto)(nil),                // 32: hadoop.hdfs.HdfsFileStatusProto
-	(*FsServerDefaultsProto)(nil),              // 33: hadoop.hdfs.FsServerDefaultsProto
-	(*DirectoryListingProto)(nil),              // 34: hadoop.hdfs.DirectoryListingProto
-	(*SnapshottableDirectoryStatusProto)(nil),  // 35: hadoop.hdfs.SnapshottableDirectoryStatusProto
-	(*SnapshottableDirectoryListingProto)(nil), // 36: hadoop.hdfs.SnapshottableDirectoryListingProto
-	(*SnapshotDiffReportEntryProto)(nil),       // 37: hadoop.hdfs.SnapshotDiffReportEntryProto
-	(*SnapshotDiffReportProto)(nil),            // 38: hadoop.hdfs.SnapshotDiffReportProto
-	(*BlockProto)(nil),                         // 39: hadoop.hdfs.BlockProto
-	(*SnapshotInfoProto)(nil),                  // 40: hadoop.hdfs.SnapshotInfoProto
-	(*RollingUpgradeStatusProto)(nil),          // 41: hadoop.hdfs.RollingUpgradeStatusProto
-	(*StorageUuidsProto)(nil),                  // 42: hadoop.hdfs.StorageUuidsProto
-	(*hadoop_common.TokenProto)(nil),           // 43: hadoop.common.TokenProto
+	(ErasureCodingPolicyState)(0),              // 3: hadoop.hdfs.ErasureCodingPolicyState
+	(ChecksumTypeProto)(0),                     // 4: hadoop.hdfs.ChecksumTypeProto
+	(DatanodeInfoProto_AdminState)(0),          // 5: hadoop.hdfs.DatanodeInfoProto.AdminState
+	(DatanodeStorageProto_StorageState)(0),     // 6: hadoop.hdfs.DatanodeStorageProto.StorageState
+	(HdfsFileStatusProto_FileType)(0),          // 7: hadoop.hdfs.HdfsFileStatusProto.FileType
+	(*ExtendedBlockProto)(nil),                 // 8: hadoop.hdfs.ExtendedBlockProto
+	(*DatanodeIDProto)(nil),                    // 9: hadoop.hdfs.DatanodeIDProto
+	(*DatanodeLocalInfoProto)(nil),             // 10: hadoop.hdfs.DatanodeLocalInfoProto
+	(*DatanodeInfosProto)(nil),                 // 11: hadoop.hdfs.DatanodeInfosProto
+	(*DatanodeInfoProto)(nil),                  // 12: hadoop.hdfs.DatanodeInfoProto
+	(*DatanodeStorageProto)(nil),               // 13: hadoop.hdfs.DatanodeStorageProto
+	(*StorageReportProto)(nil),                 // 14: hadoop.hdfs.StorageReportProto
+	(*ContentSummaryProto)(nil),                // 15: hadoop.hdfs.ContentSummaryProto
+	(*QuotaUsageProto)(nil),                    // 16: hadoop.hdfs.QuotaUsageProto
+	(*StorageTypeQuotaInfosProto)(nil),         // 17: hadoop.hdfs.StorageTypeQuotaInfosProto
+	(*StorageTypeQuotaInfoProto)(nil),          // 18: hadoop.hdfs.StorageTypeQuotaInfoProto
+	(*CorruptFileBlocksProto)(nil),             // 19: hadoop.hdfs.CorruptFileBlocksProto
+	(*FsPermissionProto)(nil),                  // 20: hadoop.hdfs.FsPermissionProto
+	(*StorageTypesProto)(nil),                  // 21: hadoop.hdfs.StorageTypesProto
+	(*BlockStoragePolicyProto)(nil),            // 22: hadoop.hdfs.BlockStoragePolicyProto
+	(*LocatedBlockProto)(nil),                  // 23: hadoop.hdfs.LocatedBlockProto
+	(*DataEncryptionKeyProto)(nil),             // 24: hadoop.hdfs.DataEncryptionKeyProto
+	(*FileEncryptionInfoProto)(nil),            // 25: hadoop.hdfs.FileEncryptionInfoProto
+	(*PerFileEncryptionInfoProto)(nil),         // 26: hadoop.hdfs.PerFileEncryptionInfoProto
+	(*ZoneEncryptionInfoProto)(nil),            // 27: hadoop.hdfs.ZoneEncryptionInfoProto
+	(*CipherOptionProto)(nil),                  // 28: hadoop.hdfs.CipherOptionProto
+	(*LocatedBlocksProto)(nil),                 // 29: hadoop.hdfs.LocatedBlocksProto
+	(*ECSchemaOptionEntryProto)(nil),           // 30: hadoop.hdfs.ECSchemaOptionEntryProto
+	(*ECSchemaProto)(nil),                      // 31: hadoop.hdfs.ECSchemaProto
+	(*ErasureCodingPolicyProto)(nil),           // 32: hadoop.hdfs.ErasureCodingPolicyProto
+	(*HdfsFileStatusProto)(nil),                // 33: hadoop.hdfs.HdfsFileStatusProto
+	(*FsServerDefaultsProto)(nil),              // 34: hadoop.hdfs.FsServerDefaultsProto
+	(*DirectoryListingProto)(nil),              // 35: hadoop.hdfs.DirectoryListingProto
+	(*SnapshottableDirectoryStatusProto)(nil),  // 36: hadoop.hdfs.SnapshottableDirectoryStatusProto
+	(*SnapshottableDirectoryListingProto)(nil), // 37: hadoop.hdfs.SnapshottableDirectoryListingProto
+	(*SnapshotDiffReportEntryProto)(nil),       // 38: hadoop.hdfs.SnapshotDiffReportEntryProto
+	(*SnapshotDiffReportProto)(nil),            // 39: hadoop.hdfs.SnapshotDiffReportProto
+	(*BlockProto)(nil),                         // 40: hadoop.hdfs.BlockProto
+	(*SnapshotInfoProto)(nil),                  // 41: hadoop.hdfs.SnapshotInfoProto
+	(*RollingUpgradeStatusProto)(nil),          // 42: hadoop.hdfs.RollingUpgradeStatusProto
+	(*StorageUuidsProto)(nil),                  // 43: hadoop.hdfs.StorageUuidsProto
+	(*hadoop_common.TokenProto)(nil),           // 44: hadoop.common.TokenProto
 }
 var file_hdfs_proto_depIdxs = []int32{
-	11, // 0: hadoop.hdfs.DatanodeInfosProto.datanodes:type_name -> hadoop.hdfs.DatanodeInfoProto
-	8,  // 1: hadoop.hdfs.DatanodeInfoProto.id:type_name -> hadoop.hdfs.DatanodeIDProto
-	4,  // 2: hadoop.hdfs.DatanodeInfoProto.adminState:type_name -> hadoop.hdfs.DatanodeInfoProto.AdminState
-	5,  // 3: hadoop.hdfs.DatanodeStorageProto.state:type_name -> hadoop.hdfs.DatanodeStorageProto.StorageState
+	12, // 0: hadoop.hdfs.DatanodeInfosProto.datanodes:type_name -> hadoop.hdfs.DatanodeInfoProto
+	9,  // 1: hadoop.hdfs.DatanodeInfoProto.id:type_name -> hadoop.hdfs.DatanodeIDProto
+	5,  // 2: hadoop.hdfs.DatanodeInfoProto.adminState:type_name -> hadoop.hdfs.DatanodeInfoProto.AdminState
+	6,  // 3: hadoop.hdfs.DatanodeStorageProto.state:type_name -> hadoop.hdfs.DatanodeStorageProto.StorageState
 	0,  // 4: hadoop.hdfs.DatanodeStorageProto.storageType:type_name -> hadoop.hdfs.StorageTypeProto
-	12, // 5: hadoop.hdfs.StorageReportProto.storage:type_name -> hadoop.hdfs.DatanodeStorageProto
-	16, // 6: hadoop.hdfs.ContentSummaryProto.typeQuotaInfos:type_name -> hadoop.hdfs.StorageTypeQuotaInfosProto
-	16, // 7: hadoop.hdfs.QuotaUsageProto.typeQuotaInfos:type_name -> hadoop.hdfs.StorageTypeQuotaInfosProto
-	17, // 8: hadoop.hdfs.StorageTypeQuotaInfosProto.typeQuotaInfo:type_name -> hadoop.hdfs.StorageTypeQuotaInfoProto
+	13, // 5: hadoop.hdfs.StorageReportProto.storage:type_name -> hadoop.hdfs.DatanodeStorageProto
+	17, // 6: hadoop.hdfs.ContentSummaryProto.typeQuotaInfos:type_name -> hadoop.hdfs.StorageTypeQuotaInfosProto
+	17, // 7: hadoop.hdfs.QuotaUsageProto.typeQuotaInfos:type_name -> hadoop.hdfs.StorageTypeQuotaInfosProto
+	18, // 8: hadoop.hdfs.StorageTypeQuotaInfosProto.typeQuotaInfo:type_name -> hadoop.hdfs.StorageTypeQuotaInfoProto
 	0,  // 9: hadoop.hdfs.StorageTypeQuotaInfoProto.type:type_name -> hadoop.hdfs.StorageTypeProto
 	0,  // 10: hadoop.hdfs.StorageTypesProto.storageTypes:type_name -> hadoop.hdfs.StorageTypeProto
-	20, // 11: hadoop.hdfs.BlockStoragePolicyProto.creationPolicy:type_name -> hadoop.hdfs.StorageTypesProto
-	20, // 12: hadoop.hdfs.BlockStoragePolicyProto.creationFallbackPolicy:type_name -> hadoop.hdfs.StorageTypesProto
-	20, // 13: hadoop.hdfs.BlockStoragePolicyProto.replicationFallbackPolicy:type_name -> hadoop.hdfs.StorageTypesProto
-	7,  // 14: hadoop.hdfs.LocatedBlockProto.b:type_name -> hadoop.hdfs.ExtendedBlockProto
-	11, // 15: hadoop.hdfs.LocatedBlockProto.locs:type_name -> hadoop.hdfs.DatanodeInfoProto
-	43, // 16: hadoop.hdfs.LocatedBlockProto.blockToken:type_name -> hadoop.common.TokenProto
+	21, // 11: hadoop.hdfs.BlockStoragePolicyProto.creationPolicy:type_name -> hadoop.hdfs.StorageTypesProto
+	21, // 12: hadoop.hdfs.BlockStoragePolicyProto.creationFallbackPolicy:type_name -> hadoop.hdfs.StorageTypesProto
+	21, // 13: hadoop.hdfs.BlockStoragePolicyProto.replicationFallbackPolicy:type_name -> hadoop.hdfs.StorageTypesProto
+	8,  // 14: hadoop.hdfs.LocatedBlockProto.b:type_name -> hadoop.hdfs.ExtendedBlockProto
+	12, // 15: hadoop.hdfs.LocatedBlockProto.locs:type_name -> hadoop.hdfs.DatanodeInfoProto
+	44, // 16: hadoop.hdfs.LocatedBlockProto.blockToken:type_name -> hadoop.common.TokenProto
 	0,  // 17: hadoop.hdfs.LocatedBlockProto.storageTypes:type_name -> hadoop.hdfs.StorageTypeProto
-	43, // 18: hadoop.hdfs.LocatedBlockProto.blockTokens:type_name -> hadoop.common.TokenProto
+	44, // 18: hadoop.hdfs.LocatedBlockProto.blockTokens:type_name -> hadoop.common.TokenProto
 	1,  // 19: hadoop.hdfs.FileEncryptionInfoProto.suite:type_name -> hadoop.hdfs.CipherSuiteProto
 	2,  // 20: hadoop.hdfs.FileEncryptionInfoProto.cryptoProtocolVersion:type_name -> hadoop.hdfs.CryptoProtocolVersionProto
 	1,  // 21: hadoop.hdfs.ZoneEncryptionInfoProto.suite:type_name -> hadoop.hdfs.CipherSuiteProto
 	2,  // 22: hadoop.hdfs.ZoneEncryptionInfoProto.cryptoProtocolVersion:type_name -> hadoop.hdfs.CryptoProtocolVersionProto
 	1,  // 23: hadoop.hdfs.CipherOptionProto.suite:type_name -> hadoop.hdfs.CipherSuiteProto
-	22, // 24: hadoop.hdfs.LocatedBlocksProto.blocks:type_name -> hadoop.hdfs.LocatedBlockProto
-	22, // 25: hadoop.hdfs.LocatedBlocksProto.lastBlock:type_name -> hadoop.hdfs.LocatedBlockProto
-	24, // 26: hadoop.hdfs.LocatedBlocksProto.fileEncryptionInfo:type_name -> hadoop.hdfs.FileEncryptionInfoProto
-	31, // 27: hadoop.hdfs.LocatedBlocksProto.ecPolicy:type_name -> hadoop.hdfs.ErasureCodingPolicyProto
-	29, // 28: hadoop.hdfs.ECSchemaProto.options:type_name -> hadoop.hdfs.ECSchemaOptionEntryProto
-	30, // 29: hadoop.hdfs.ErasureCodingPolicyProto.schema:type_name -> hadoop.hdfs.ECSchemaProto
-	6,  // 30: hadoop.hdfs.HdfsFileStatusProto.fileType:type_name -> hadoop.hdfs.HdfsFileStatusProto.FileType
-	19, // 31: hadoop.hdfs.HdfsFileStatusProto.permission:type_name -> hadoop.hdfs.FsPermissionProto
-	28, // 32: hadoop.hdfs.HdfsFileStatusProto.locations:type_name -> hadoop.hdfs.LocatedBlocksProto
-	24, // 33: hadoop.hdfs.HdfsFileStatusProto.fileEncryptionInfo:type_name -> hadoop.hdfs.FileEncryptionInfoProto
-	31, // 34: hadoop.hdfs.HdfsFileStatusProto.ecPolicy:type_name -> hadoop.hdfs.ErasureCodingPolicyProto
-	3,  // 35: hadoop.hdfs.FsServerDefaultsProto.checksumType:type_name -> hadoop.hdfs.ChecksumTypeProto
-	32, // 36: hadoop.hdfs.DirectoryListingProto.partialListing:type_name -> hadoop.hdfs.HdfsFileStatusProto
-	32, // 37: hadoop.hdfs.SnapshottableDirectoryStatusProto.dirStatus:type_name -> hadoop.hdfs.HdfsFileStatusProto
-	35, // 38: hadoop.hdfs.SnapshottableDirectoryListingProto.snapshottableDirListing:type_name -> hadoop.hdfs.SnapshottableDirectoryStatusProto
-	37, // 39: hadoop.hdfs.SnapshotDiffReportProto.diffReportEntries:type_name -> hadoop.hdfs.SnapshotDiffReportEntryProto
-	19, // 40: hadoop.hdfs.SnapshotInfoProto.permission:type_name -> hadoop.hdfs.FsPermissionProto
-	41, // [41:41] is the sub-list for method output_type
-	41, // [41:41] is the sub-list for method input_type
-	41, // [41:41] is the sub-list for extension type_name
-	41, // [41:41] is the sub-list for extension extendee
-	0,  // [0:41] is the sub-list for field type_name
+	23, // 24: hadoop.hdfs.LocatedBlocksProto.blocks:type_name -> hadoop.hdfs.LocatedBlockProto
+	23, // 25: hadoop.hdfs.LocatedBlocksProto.lastBlock:type_name -> hadoop.hdfs.LocatedBlockProto
+	25, // 26: hadoop.hdfs.LocatedBlocksProto.fileEncryptionInfo:type_name -> hadoop.hdfs.FileEncryptionInfoProto
+	32, // 27: hadoop.hdfs.LocatedBlocksProto.ecPolicy:type_name -> hadoop.hdfs.ErasureCodingPolicyProto
+	30, // 28: hadoop.hdfs.ECSchemaProto.options:type_name -> hadoop.hdfs.ECSchemaOptionEntryProto
+	31, // 29: hadoop.hdfs.ErasureCodingPolicyProto.schema:type_name -> hadoop.hdfs.ECSchemaProto
+	3,  // 30: hadoop.hdfs.ErasureCodingPolicyProto.state:type_name -> hadoop.hdfs.ErasureCodingPolicyState
+	7,  // 31: hadoop.hdfs.HdfsFileStatusProto.fileType:type_name -> hadoop.hdfs.HdfsFileStatusProto.FileType
+	20, // 32: hadoop.hdfs.HdfsFileStatusProto.permission:type_name -> hadoop.hdfs.FsPermissionProto
+	29, // 33: hadoop.hdfs.HdfsFileStatusProto.locations:type_name -> hadoop.hdfs.LocatedBlocksProto
+	25, // 34: hadoop.hdfs.HdfsFileStatusProto.fileEncryptionInfo:type_name -> hadoop.hdfs.FileEncryptionInfoProto
+	32, // 35: hadoop.hdfs.HdfsFileStatusProto.ecPolicy:type_name -> hadoop.hdfs.ErasureCodingPolicyProto
+	4,  // 36: hadoop.hdfs.FsServerDefaultsProto.checksumType:type_name -> hadoop.hdfs.ChecksumTypeProto
+	33, // 37: hadoop.hdfs.DirectoryListingProto.partialListing:type_name -> hadoop.hdfs.HdfsFileStatusProto
+	33, // 38: hadoop.hdfs.SnapshottableDirectoryStatusProto.dirStatus:type_name -> hadoop.hdfs.HdfsFileStatusProto
+	36, // 39: hadoop.hdfs.SnapshottableDirectoryListingProto.snapshottableDirListing:type_name -> hadoop.hdfs.SnapshottableDirectoryStatusProto
+	38, // 40: hadoop.hdfs.SnapshotDiffReportProto.diffReportEntries:type_name -> hadoop.hdfs.SnapshotDiffReportEntryProto
+	20, // 41: hadoop.hdfs.SnapshotInfoProto.permission:type_name -> hadoop.hdfs.FsPermissionProto
+	42, // [42:42] is the sub-list for method output_type
+	42, // [42:42] is the sub-list for method input_type
+	42, // [42:42] is the sub-list for extension type_name
+	42, // [42:42] is the sub-list for extension extendee
+	0,  // [0:42] is the sub-list for field type_name
 }
 
 func init() { file_hdfs_proto_init() }
@@ -4271,7 +4355,7 @@ func file_hdfs_proto_init() {
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_hdfs_proto_rawDesc,
-			NumEnums:      7,
+			NumEnums:      8,
 			NumMessages:   36,
 			NumExtensions: 0,
 			NumServices:   0,
