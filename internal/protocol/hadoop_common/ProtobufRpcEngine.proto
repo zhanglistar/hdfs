@@ -32,7 +32,7 @@ option java_package = "org.apache.hadoop.ipc.protobuf";
 option java_outer_classname = "ProtobufRpcEngineProtos";
 option java_generate_equals_and_hash = true;
 package hadoop.common;
-
+option go_package = "github.com/zhanglistar/hdfs/internal/protocol/hadoop_common";
 /**
  * This message is the header for the Protobuf Rpc Engine
  * when sending a RPC request from  RPC client to the RPC server.
